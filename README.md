@@ -47,7 +47,7 @@ You're reading it!
 The code for this step is contained in the first code cell of the IPython notebook located in "./examples/example.ipynb".  
 
 
-```
+```python
 def undistort(img,objpoints, imgpoints):
     img_size = (img.shape[1], img.shape[0])
 
@@ -89,7 +89,7 @@ I used a combination of color and gradient thresholds to generate a binary image
 ![alt text][image3]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
-```
+```python
 top_down, perspective_M, Minv = corners_unwarp(mag_binary, mtx, dist)
 ```
 The code for my perspective transform includes a function called `corners_unwarp(mag_binary, mtx, dist)` I chose the hardcode the source and destination points in the following manner:
@@ -122,7 +122,7 @@ I verified that my perspective transform was working as expected by drawing the 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
-```
+```python
     left_fit = np.polyfit(lefty, leftx, 2)
     right_fit = np.polyfit(righty, rightx, 2)
 ```
@@ -137,7 +137,7 @@ the previous fit passed to this function is done on the pixel space and the coef
  > if the parabola is x= a*(y**2) +b*y+c; and mx and my are the scale for the x and y axis, respectively (in meters/pixel); then the scaled parabola is x= mx / (my ** 2) *a*(y**2)+(mx/my)*b*y+c
 
 
-```
+```python
     left_a_new = xm_per_pix/(ym_per_pix**2)*left_fit[0]
     left_b_new = xm_per_pix/(ym_per_pix)*left_fit[1]
     right_a_new = xm_per_pix/(ym_per_pix**2)*right_fit[0]
@@ -173,6 +173,8 @@ Here I'll talk about the approach I took, what techniques I used, what worked an
 Pitfalls:
 * Cannot recognize the lanes in some special cases in project videos and especially in challeng videos:  
 ![alt text][image7]
-possible solutions are: tune the image filter parameter, try in RGB space or HLS space to elimanate the influence from sunshine, etc. To do the averaging over the time series or space, like reject certain recognized line if the new line is a big position change repect to the last line.
+
+possible solutions are: tune the image filter parameter, instead in RGB space but HLS space to elimanate the influence from sunshine, etc. 
+To do the averaging over the time series or space, like reject certain recognized line if the new line is a big position change repect to the last line.
 
  
