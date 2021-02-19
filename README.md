@@ -19,13 +19,14 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/undistort_output.png "Undistorted"
-[image2]: ./test_images/test1.jpg "Road Transformed"
-[image3]: ./examples/binary_combo_example.jpg "Binary Example"
-[image4]: ./examples/warped_straight_lines.jpg "Warp Example"
-[image5]: ./examples/color_fit_lines.jpg "Fit Visual"
-[image6]: ./examples/example_output.jpg "Output"
-[video1]: ./project_video.mp4 "Video"
+[image1]: ./examples/image1.jpg "Undistorted"
+[image2]: ./examples/image2.jpg "Road Transformed"
+[image3]: ./examples/image3.jpg "Binary Example"
+[image4]: ./examples/image4.jpg "Warp Example"
+[image5]: ./examples/image5.jpg "Fit Visual"
+[image6]: ./examples/image6.jpg "Output"
+[image7]: ./examples/image_pitfall.jpg "Pitfall"
+[video1]: ./project_video_out.mp4 "Video"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
 
@@ -68,7 +69,7 @@ I start by preparing "object points(objpoints)", which will be the (x, y, z) coo
 
 I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
 
-![alt text][examples/image1]
+![alt text][image1]
 
 ### Pipeline (single images)
 
@@ -76,7 +77,7 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
 The procedures are basically same with above. This time we apply the undistortion operation on real image of the road.
-![alt text][examples/image2]
+![alt text][image2]
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 ```python
@@ -85,7 +86,7 @@ The procedures are basically same with above. This time we apply the undistortio
 ```
 I used a combination of color and gradient thresholds to generate a binary image ().  Here's an example of my output for this step.  
 
-![alt text][examples/image3]
+![alt text][image3]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 ```
@@ -116,7 +117,7 @@ This resulted in the following source and destination points:
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![alt text][examples/image4]
+![alt text][image4]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
@@ -126,7 +127,7 @@ Then I did some other stuff and fit my lane lines with a 2nd order polynomial ki
     right_fit = np.polyfit(righty, rightx, 2)
 ```
 
-![alt text][examples/image5]
+![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
@@ -151,7 +152,7 @@ the previous fit passed to this function is done on the pixel space and the coef
 
 I implemented this step in the function `draw_lane_fit`. Here is an example of my result on a test image:
 
-![alt text][examples/image6]
+![alt text][image6]
 
 ---
 
@@ -168,3 +169,10 @@ Here's a [link to my video result](./project_video_out.mp4)
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+
+Pitfalls:
+* Cannot recognize the lanes in some special cases in project videos and especially in challeng videos:  
+![alt text][image7]
+possible solutions are: tune the image filter parameter, try in RGB space or HLS space to elimanate the influence from sunshine, etc. To do the averaging over the time series or space, like reject certain recognized line if the new line is a big position change repect to the last line.
+
+ 
