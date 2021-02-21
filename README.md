@@ -134,7 +134,7 @@ Then I did some other stuff and fit my lane lines with a 2nd order polynomial ki
 I did this in `measure_curvature_pixels(ploty,left_fit, right_fit, ym_per_pix=30/720, xm_per_pix=3.7/700)`  in my code in
 
 the previous fit passed to this function is done on the pixel space and the coeficient is respective to pixel space. To convert back to the real world space. I used the following knowledge from a insightful student in the lecture. 
- > if the parabola is x= a*(y**2) +b*y+c; and mx and my are the scale for the x and y axis, respectively (in meters/pixel); then the scaled parabola is x= mx / (my ** 2) *a*(y**2)+(mx/my)*b*y+c
+ > if the parabola is x= a*(y\*\*2) +b*y+c; and mx and my are the scale for the x and y axis, respectively (in meters/pixel); then the scaled parabola is x= mx / (my \*\* 2) *a*(y\*\*2)+(mx/my)*b*y+c
 
 
 ```python
@@ -147,6 +147,12 @@ the previous fit passed to this function is done on the pixel space and the coef
     right_curverad = ((1 + (2*right_a_new*y_eval + right_b_new)**2)**1.5) / np.absolute(2*right_a_new)
 ```
 
+The position of the car with respect of the mid point of the two lanes is calculated in original image:
+
+```
+offset = -((nonzero_list[-1] - nonzero_list[0]) - img.shape[1])*(3.7/700)/2
+```
+where the is the list of index of pixels that are not zero in  original image space. 
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
@@ -174,7 +180,13 @@ Pitfalls:
 * Cannot recognize the lanes in some special cases in project videos and especially in challeng videos:  
 ![alt text][image7]
 
-possible solutions are: tune the image filter parameter, instead in RGB space but HLS space to elimanate the influence from sunshine, etc. 
-To do the averaging over the time series or space, like reject certain recognized line if the new line is a big position change repect to the last line.
+Possible solutions are: 
+* Tune the image filter parameter, instead in RGB space but HLS space to elimanate the influence from sunshine, etc. 
+
+* To do the averaging over the time series or space, 
+
+* Reject certain recognized line if the new line has a big position change repect to the last line.
+
+I used the averaging method and averaged over 15 points and found it approximately enough to resolve the problem. Rejecting apparently failing fitting could also be implemented in the future if needed.
 
  
