@@ -177,7 +177,8 @@ Here's a [link to my video result](./project_video_out.mp4)
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
 
 Pitfalls:
-* Cannot recognize the lanes in some special cases in project videos and especially in challeng videos:  
+* Cannot recognize the lanes in some special cases in project videos and especially in challeng videos. So the lane of previous recognized positions were used
+
 ![alt text][image7]
 
 Possible solutions are: 
@@ -187,6 +188,6 @@ Possible solutions are:
 
 * Reject certain recognized line if the new line has a big position change repect to the last line.
 
-I used the averaging method and averaged over 15 points and found it approximately enough to resolve the problem. Rejecting apparently failing fitting could also be implemented in the future if needed.
+I used the averaging method and averaged over 15 points and rejected apparently failing fitting. There is also a backup plan to detect yellow and while color in HSV color space with opencv api, if this is needed.
 
  
